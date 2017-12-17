@@ -1,5 +1,6 @@
 package com.imooc.security.browser;
 
+import com.imooc.security.browser.support.SimpleResponse;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 @RestController
 public class BrowserSecurityController {
@@ -25,7 +27,7 @@ public class BrowserSecurityController {
 
 
     @RequestMapping("/authentication/require")
-    public String requireAuthentication(HttpServletRequest request, HttpServletResponse response) {
+    public SimpleResponse requireAuthentication(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String requestURI = request.getRequestURI();
         SavedRequest savedRequest = requestCache.getRequest(request, response);
         if (savedRequest != null){
@@ -35,6 +37,6 @@ public class BrowserSecurityController {
                 redirectStrategy.sendRedirect(request, response, "myloginpage.html");
             }
         }
-        return new ;
+        return new SimpleResponse("需要身份认证");
     }
 }
