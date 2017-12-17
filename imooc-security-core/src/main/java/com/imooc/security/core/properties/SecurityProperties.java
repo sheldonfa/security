@@ -1,4 +1,4 @@
-package com.imooc.security.properties;
+package com.imooc.security.core.properties;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
