@@ -1,5 +1,7 @@
 package com.imooc.security.browser;
 
+import com.imooc.security.properties.SecurityProperties;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -10,6 +12,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @Configuration
 public class BrowSerSecurityConfig extends WebSecurityConfigurerAdapter{
 
+    @Autowired
+    private SecurityProperties securityProperties;
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.formLogin()
@@ -17,7 +22,7 @@ public class BrowSerSecurityConfig extends WebSecurityConfigurerAdapter{
                 .loginProcessingUrl("/authentication/form")
                 .and()
                 .authorizeRequests()
-                .antMatchers("/authentication/require","").permitAll()
+                .antMatchers("/authentication/require", securityProperties.getBrowser().getLoginPage()).permitAll()
                 .anyRequest()
                 .authenticated();
     }
