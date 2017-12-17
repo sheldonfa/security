@@ -1,5 +1,5 @@
 /**
- *
+ * 
  */
 package com.imooc.security.browser.support;
 
@@ -8,11 +8,11 @@ package com.imooc.security.browser.support;
  *
  */
 public class SimpleResponse {
-
+	
 	public SimpleResponse(Object content){
 		this.content = content;
 	}
-
+	
 	private Object content;
 
 	public Object getContent() {
@@ -22,5 +22,5 @@ public class SimpleResponse {
 	public void setContent(Object content) {
 		this.content = content;
 	}
-
+	
 }

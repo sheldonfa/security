@@ -1,5 +1,5 @@
 /**
- *
+ * 
  */
 package com.imooc.security.browser;
 
@@ -31,39 +31,39 @@ import com.imooc.security.core.properties.SecurityProperties;
  */
 @RestController
 public class BrowserSecurityController {
+	
+	private Logger logger = LoggerFactory.getLogger(getClass());
 
-    private Logger logger = LoggerFactory.getLogger(getClass());
+	private RequestCache requestCache = new HttpSessionRequestCache();
+	
+	private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
+	
+	@Autowired
+	private SecurityProperties securityProperties;
 
-    private RequestCache requestCache = new HttpSessionRequestCache();
+	/**
+	 * 当需要身份认证时，跳转到这里
+	 * 
+	 * @param request
+	 * @param response
+	 * @return
+	 * @throws IOException 
+	 */
+	@RequestMapping("/authentication/require")
+	@ResponseStatus(code = HttpStatus.UNAUTHORIZED)
+	public SimpleResponse requireAuthentication(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
-    private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
+		SavedRequest savedRequest = requestCache.getRequest(request, response);
 
-    @Autowired
-    private SecurityProperties securityProperties;
+		if (savedRequest != null) {
+			String targetUrl = savedRequest.getRedirectUrl();
+			logger.info("引发跳转的请求是:"+targetUrl);
+			if(StringUtils.endsWithIgnoreCase(targetUrl, ".html")){
+				redirectStrategy.sendRedirect(request, response, securityProperties.getBrowser().getLoginPage());
+			}
+		}
 
-    /**
-     * 当需要身份认证时，跳转到这里
-     *
-     * @param request
-     * @param response
-     * @return
-     * @throws IOException
-     */
-    @RequestMapping("/authentication/require")
-    @ResponseStatus(code = HttpStatus.UNAUTHORIZED)
-    public SimpleResponse requireAuthentication(HttpServletRequest request, HttpServletResponse response) throws IOException {
-
-        SavedRequest savedRequest = requestCache.getRequest(request, response);
-
-        if (savedRequest != null) {
-            String targetUrl = savedRequest.getRedirectUrl();
-            logger.info("引发跳转的请求是:"+targetUrl);
-            if(StringUtils.endsWithIgnoreCase(targetUrl, ".html")){
-                redirectStrategy.sendRedirect(request, response, securityProperties.getBrowser().getLoginPage());
-            }
-        }
-
-        return new SimpleResponse("访问的服务需要身份认证，请引导用户到登录页");
-    }
+		return new SimpleResponse("访问的服务需要身份认证，请引导用户到登录页");
+	}
 
 }
