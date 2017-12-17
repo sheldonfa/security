@@ -1,7 +1,6 @@
 package com.imooc.security.properties;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.context.annotation.Configuration;
 
 @ConfigurationProperties(prefix = "imooc.security")
 public class SecurityProperties {
