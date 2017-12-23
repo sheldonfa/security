@@ -30,7 +30,7 @@ public class MyAuthenticationFailureHandler extends SimpleUrlAuthenticationFailu
         logger.info("登录失败");
         if (LoginType.JSON.equals(securityProperties.getBrowser().getLoginType())) {
             response.setContentType("application/json;charset=UTF-8");
-            response.getWriter().write(objectMapper.writeValueAsString(exception));
+            response.getWriter().write(objectMapper.writeValueAsString(exception.getMessage()));
         } else {
             super.onAuthenticationFailure(request, response, exception);
         }
