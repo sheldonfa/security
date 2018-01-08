@@ -13,6 +13,8 @@ public class BrowserProperties {
 
     private LoginType loginType = LoginType.JSON;
 
+    private Integer rememberSeconds = 3600;
+
     public LoginType getLoginType() {
         return loginType;
     }
@@ -30,4 +32,12 @@ public class BrowserProperties {
         this.loginPage = loginPage;
     }
 
+    public Integer getRememberSeconds() {
+        return rememberSeconds;
+    }
+
+    public BrowserProperties setRememberSeconds(Integer rememberSeconds) {
+        this.rememberSeconds = rememberSeconds;
+        return this;
+    }
 }
